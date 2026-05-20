@@ -6,6 +6,11 @@ from typing import Iterable, Optional
 from rdkit import Chem
 from rdkit.Chem import QED
 
+# Same intent as decode.py's _RDKIT_DECODE_ERRORS: only swallow exceptions
+# that legitimately come from processing a bad molecule; let API errors
+# (AttributeError/TypeError/ImportError) propagate.
+_RDKIT_METRIC_ERRORS = (ValueError, RuntimeError, Chem.MolSanitizeException)
+
 
 def rdkit_metrics(mols: Iterable[Optional[Chem.Mol]], train_smiles: set[str] | None = None) -> dict:
     """Compute headline 2D metrics for a batch of (possibly None) RDKit Mols.
@@ -26,9 +31,9 @@ def rdkit_metrics(mols: Iterable[Optional[Chem.Mol]], train_smiles: set[str] | N
             valid_smiles.append(s)
             try:
                 qed_vals.append(QED.qed(m))
-            except Exception:
+            except _RDKIT_METRIC_ERRORS:
                 pass
-        except Exception:
+        except _RDKIT_METRIC_ERRORS:
             continue
 
     n_valid = len(valid_smiles)

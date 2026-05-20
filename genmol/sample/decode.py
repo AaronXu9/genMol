@@ -17,6 +17,12 @@ from torch import Tensor
 
 from genmol.utils.chem import QM9_ATOMIC_NUMBERS
 
+# RDKit-domain failures we expect during xyz→mol bond perception. Catching
+# ONLY these means API-typo bugs (AttributeError, TypeError, ImportError)
+# propagate and crash loudly instead of silently returning None — which is
+# what hid the rdDetermineBonds import bug for two 200k-step runs.
+_RDKIT_DECODE_ERRORS = (ValueError, RuntimeError, Chem.MolSanitizeException)
+
 
 def decode_to_mol(
     x: np.ndarray,            # (N, 3)
@@ -58,18 +64,18 @@ def decode_to_mol(
     # Bond perception from xyz. Uses RDKit's port of xyz2mol.
     try:
         rdDetermineBonds.DetermineBonds(mol, charge=charge)
-    except Exception:
+    except _RDKIT_DECODE_ERRORS:
         # Fallback: connectivity only (no bond orders) — still useful for
         # validity checks even when bond-order assignment fails.
         try:
             rdDetermineBonds.DetermineConnectivity(mol, charge=charge)
-        except Exception:
+        except _RDKIT_DECODE_ERRORS:
             return None
 
     if sanitize:
         try:
             Chem.SanitizeMol(mol)
-        except Exception:
+        except _RDKIT_DECODE_ERRORS:
             return None
     return mol
 
