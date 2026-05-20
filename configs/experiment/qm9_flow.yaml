@@ -6,7 +6,7 @@ defaults:
   - override /data: qm9
   - override /model: flow_qm9
   - override /backbone: egnn_base
-  - override /process: fm_linear
+  - override /process: fm_vp     # VP cos/sin path beats linear on validity (92% vs 61%)
   - override /trainer: default
   - override /callbacks: default
   - override /sampler: flow_euler

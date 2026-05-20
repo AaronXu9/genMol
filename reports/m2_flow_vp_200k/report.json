@@ -1,0 +1,15 @@
+{
+  "ckpt": "logs/qm9_flow_vp-20260520-151349/checkpoints/epoch=102-step=200000.ckpt",
+  "model": "flow_vp",
+  "n_samples": 512,
+  "num_sampling_steps": 100,
+  "total": 512.0,
+  "valid": 471.0,
+  "validity": 0.919921875,
+  "uniqueness": 0.9978768577494692,
+  "novelty": 0.9978768577494692,
+  "mean_qed": 0.42234783570887857,
+  "mean_bond_length": 1.2609620170198301,
+  "std_bond_length": 0.19391894155278303,
+  "n_bonds": 7704
+}

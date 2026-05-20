@@ -4,7 +4,7 @@ defaults:
   - override /data: crossdocked
   - override /model: flow_sbdd
   - override /backbone: pocket_egnn_base
-  - override /process: fm_linear
+  - override /process: fm_vp     # VP cos/sin path; see docs/benchmarks/M1_M2_report.md
   - override /trainer: default
   - override /callbacks: full_eval
   - override /sampler: flow_euler
