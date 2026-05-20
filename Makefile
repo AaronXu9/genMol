@@ -5,12 +5,22 @@
 
 CONDA ?= mamba
 ENV_NAME ?= genmol
+# Optional: install env at an absolute prefix instead of the default conda envs dir.
+# Example: `make env ENV_PREFIX=/project2/katritch_223/aoxu/envs/genmol`
+ENV_PREFIX ?=
 PY ?= python
+
+ifeq ($(strip $(ENV_PREFIX)),)
+ENV_TARGET := -n $(ENV_NAME)
+else
+ENV_TARGET := --prefix $(ENV_PREFIX)
+endif
 
 # ============ Environment ============
 
 env:
-	$(CONDA) env create -f environment.yml || $(CONDA) env update -f environment.yml -n $(ENV_NAME)
+	$(CONDA) env create $(ENV_TARGET) -f environment.yml \
+	  || $(CONDA) env update $(ENV_TARGET) -f environment.yml
 
 install:
 	pip install -e ".[dev]"

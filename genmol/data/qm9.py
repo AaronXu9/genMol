@@ -37,24 +37,34 @@ GDB9_ALT_URL = "https://springernature.figshare.com/ndownloader/files/3195389"
 def _download_gdb9(raw_dir: Path) -> Path:
     """If `gdb9.sdf` is not present, download it. Returns the SDF path."""
     sdf = raw_dir / "gdb9.sdf"
-    if sdf.exists():
+    if sdf.exists() and sdf.stat().st_size > 0:
         return sdf
+    if sdf.exists():
+        sdf.unlink()  # 0-byte leftover from a failed prior download
     raw_dir.mkdir(parents=True, exist_ok=True)
     log.info("Downloading QM9 gdb9.sdf to %s (~250 MB)", raw_dir)
-    # Try the FigShare mirror that PyG uses; falls back to deepchem zip.
+    # Try the deepchem S3 zip first — figshare sits behind a WAF challenge that
+    # urllib silently accepts as a 0-byte HTML response.
+    zip_path = raw_dir / "qm9.zip"
     try:
-        urllib.request.urlretrieve(GDB9_ALT_URL, str(sdf))
-    except Exception as e:
-        log.warning("Primary URL failed (%s); trying deepchem zip", e)
-        zip_path = raw_dir / "qm9.zip"
         urllib.request.urlretrieve(GDB9_URL, str(zip_path))
         import zipfile
 
         with zipfile.ZipFile(zip_path) as z:
             z.extractall(raw_dir)
         zip_path.unlink()
-    if not sdf.exists():
-        raise FileNotFoundError(f"Failed to materialize {sdf}")
+    except Exception as e:
+        log.warning("deepchem zip failed (%s); trying figshare mirror", e)
+        if zip_path.exists():
+            zip_path.unlink()
+        urllib.request.urlretrieve(GDB9_ALT_URL, str(sdf))
+    if not sdf.exists() or sdf.stat().st_size < 1_000_000:
+        size = sdf.stat().st_size if sdf.exists() else 0
+        raise RuntimeError(
+            f"QM9 download produced an invalid SDF at {sdf} ({size} bytes). "
+            "Both mirrors may be temporarily blocked — retry from a node with "
+            "unrestricted egress."
+        )
     return sdf
 
 
