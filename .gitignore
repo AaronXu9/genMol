@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.installed.cfg
+*.egg
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Virtual envs
+.venv/
+venv/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+
+# Project outputs (NEVER commit)
+checkpoints/
+logs/
+runs/
+wandb/
+outputs/
+multirun/
+lightning_logs/
+*.ckpt
+*.pt
+*.pth
+reports/output/
+
+# Data (NEVER commit)
+data/raw/
+data/processed/
+data/splits/
+!genmol/data/splits/   # but DO commit the index files inside the package
+
+# Hydra
+.hydra/
+
+# Notebooks
+.ipynb_checkpoints/
+notebooks/*.html
+
+# OS
+Thumbs.db

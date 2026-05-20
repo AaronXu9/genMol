@@ -1,0 +1,19 @@
+# Top-level Hydra config. The leaf group entries below provide defaults; an
+# `experiment/<name>.yaml` (selected via experiment=<name>) overrides them.
+defaults:
+  - _self_
+  - hydra: default
+  - data: qm9
+  - model: edm_qm9
+  - backbone: egnn_base
+  - process: edm_polynomial
+  - trainer: default
+  - callbacks: default
+  - sampler: diffusion_default
+  - logger: csv
+  - experiment: smoke
+
+seed: 42
+atom_feat_dim: 5
+run_name: ${name}-${now:%Y%m%d-%H%M%S}
+output_dir: logs/${run_name}

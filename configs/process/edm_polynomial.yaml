@@ -1,0 +1,5 @@
+_target_: genmol.process.edm.EDMProcess
+schedule: polynomial
+schedule_kwargs:
+  power: 2.0
+  s: 1.0e-5

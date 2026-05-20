@@ -1,0 +1,5 @@
+# M3+ optional: PLINDER datamodule (real binding poses).
+_target_: genmol.data.plinder.PlinderDataModule
+root: data/raw/plinder
+batch_size: 8
+num_workers: 4

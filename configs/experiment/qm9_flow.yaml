@@ -1,0 +1,20 @@
+# @package _global_
+# Phase 1a #2: Flow Matching on full QM9 — IDENTICAL to qm9_edm except for
+# /process and /sampler. This is the contract that makes the EDM <-> FM swap
+# a one-line config change.
+defaults:
+  - override /data: qm9
+  - override /model: flow_qm9
+  - override /backbone: egnn_base
+  - override /process: fm_linear
+  - override /trainer: default
+  - override /callbacks: default
+  - override /sampler: flow_euler
+  - override /logger: wandb
+
+name: qm9_flow
+atom_feat_dim: 5
+
+backbone:
+  atom_feat_dim: ${atom_feat_dim}
+  prediction_type: velocity

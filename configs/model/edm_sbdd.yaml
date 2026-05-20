@@ -1,0 +1,6 @@
+_target_: genmol.models.edm_sbdd.EDMOnSBDD
+lr: 5.0e-5
+weight_decay: 1.0e-12
+warmup_steps: 2000
+max_steps: ${trainer.max_steps}
+ema_decay: 0.999

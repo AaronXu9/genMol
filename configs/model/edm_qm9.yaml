@@ -1,0 +1,7 @@
+_target_: genmol.models.edm_qm9.EDMOnQM9
+# `backbone` and `process` are injected at experiment-composition time.
+lr: 1.0e-4
+weight_decay: 1.0e-12
+warmup_steps: 1000
+max_steps: ${trainer.max_steps}
+ema_decay: 0.999

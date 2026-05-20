@@ -1,0 +1,18 @@
+# @package _global_
+# Phase 1a #1: EDM on full QM9.
+defaults:
+  - override /data: qm9
+  - override /model: edm_qm9
+  - override /backbone: egnn_base
+  - override /process: edm_polynomial
+  - override /trainer: default
+  - override /callbacks: default
+  - override /sampler: diffusion_default
+  - override /logger: wandb
+
+name: qm9_edm
+atom_feat_dim: 5
+
+backbone:
+  atom_feat_dim: ${atom_feat_dim}
+  prediction_type: noise

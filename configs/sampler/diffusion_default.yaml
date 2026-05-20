@@ -1,0 +1,3 @@
+_target_: genmol.sample.sampler_impl.DiffusionSampler
+num_steps: 250
+# Note: model, process, atom_feat_dim are injected programmatically at sample time.

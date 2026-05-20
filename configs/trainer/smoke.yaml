@@ -1,0 +1,11 @@
+max_steps: 10
+accelerator: cpu
+devices: 1
+precision: 32
+log_every_n_steps: 1
+gradient_clip_val: 1.0
+accumulate_grad_batches: 1
+enable_progress_bar: false
+enable_checkpointing: true
+default_root_dir: ${output_dir}
+val_check_interval: 1.0

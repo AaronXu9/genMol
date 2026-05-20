@@ -1,0 +1,4 @@
+_target_: genmol.oracle.vina_oracle.VinaOracle
+exhaustiveness: 8
+num_modes: 9
+timeout: 600

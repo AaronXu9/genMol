@@ -1,0 +1,7 @@
+_target_: genmol.nn.egnn_dynamics.build_egnn_dynamics
+atom_feat_dim: ???
+hidden_dim: 256
+n_layers: 9
+time_embed_dim: 32
+prediction_type: ???
+attention: true

@@ -1,0 +1,5 @@
+# M3: CrossDocked2020 datamodule.
+_target_: genmol.data.crossdocked.CrossDockedDataModule
+root: data/raw/crossdocked
+batch_size: 8
+num_workers: 4

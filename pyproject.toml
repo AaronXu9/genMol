@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "genmol"
+version = "0.0.1"
+description = "Generative molecular models: diffusion + flow matching with RL/physics-guided sampling seams"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Aoxu", email = "aoxu@usc.edu" }]
+requires-python = ">=3.10"
+dependencies = [
+  "torch>=2.4",
+  "lightning>=2.4",
+  "torchmetrics",
+  "numpy<2",
+  "scipy",
+  "pandas",
+  "hydra-core>=1.3",
+  "omegaconf",
+  "wandb",
+  "rdkit>=2023.9.6",
+  "posebusters>=0.3",
+  "tqdm",
+  "rich",
+  "h5py",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-cov", "ruff", "black", "isort", "pre-commit"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["genmol*"]
+exclude = ["tests*", "third_party*", "tools*", "scripts*", "notebooks*"]
+
+[tool.setuptools.package-data]
+"genmol.data.splits" = ["*.json"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B"]
+ignore = ["E501"]
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -q"
+filterwarnings = [
+  "ignore::DeprecationWarning",
+]

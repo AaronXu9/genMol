@@ -1,0 +1,7 @@
+_target_: genmol.nn.egnn_dynamics.build_egnn_dynamics
+atom_feat_dim: ???      # set by model config
+hidden_dim: 64
+n_layers: 3
+time_embed_dim: 16
+prediction_type: ???    # set by model config
+attention: false

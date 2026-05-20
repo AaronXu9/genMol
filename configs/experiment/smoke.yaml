@@ -1,0 +1,18 @@
+# @package _global_
+# Smoke test: tiny EDM on a 100-molecule QM9 subset, 10 steps, CPU, <2 min.
+defaults:
+  - override /data: debug_qm9_100
+  - override /model: edm_qm9
+  - override /backbone: egnn_small
+  - override /process: edm_polynomial
+  - override /trainer: smoke
+  - override /callbacks: smoke
+  - override /sampler: diffusion_default
+  - override /logger: csv
+
+name: smoke
+atom_feat_dim: 5
+
+backbone:
+  atom_feat_dim: ${atom_feat_dim}
+  prediction_type: noise

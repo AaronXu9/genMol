@@ -1,0 +1,7 @@
+# M3: PocketEGNNBackbone, two-node-type variant.
+_target_: genmol.nn.pocket_egnn.PocketEGNNBackbone
+atom_feat_dim: ???
+hidden_dim: 256
+n_layers: 9
+time_embed_dim: 32
+prediction_type: ???

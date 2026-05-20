@@ -1,0 +1,9 @@
+_target_: genmol.data.qm9.QM9DataModule
+root: data/raw/qm9
+batch_size: 64
+num_workers: 4
+subset_size: null
+val_fraction: 0.05
+augment_rotation: true
+seed: 0
+# Implicit: atom_feat_dim=5 (H, C, N, O, F). Model config must match.

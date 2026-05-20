@@ -1,0 +1,11 @@
+max_steps: 200000
+accelerator: auto
+devices: 1
+precision: 32
+log_every_n_steps: 50
+gradient_clip_val: 1.0
+accumulate_grad_batches: 1
+enable_progress_bar: true
+enable_checkpointing: true
+default_root_dir: ${output_dir}
+val_check_interval: 0.25

@@ -1,0 +1,2 @@
+_target_: genmol.sample.sampler_impl.FlowSampler
+num_steps: 100

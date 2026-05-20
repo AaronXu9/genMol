@@ -1,0 +1,4 @@
+# Variance-preserving FM path. Currently aliases linear — extend `flow_paths.py`
+# with a VP path then re-target here.
+_target_: genmol.process.flow_matching.FlowMatchingProcess
+path: linear

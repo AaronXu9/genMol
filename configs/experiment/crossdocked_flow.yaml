@@ -1,0 +1,18 @@
+# @package _global_
+# Phase 1b #2: pocket-conditioned Flow Matching on CrossDocked2020. M4.
+defaults:
+  - override /data: crossdocked
+  - override /model: flow_sbdd
+  - override /backbone: pocket_egnn_base
+  - override /process: fm_linear
+  - override /trainer: default
+  - override /callbacks: full_eval
+  - override /sampler: flow_euler
+  - override /logger: wandb
+
+name: crossdocked_flow
+atom_feat_dim: 10
+
+backbone:
+  atom_feat_dim: ${atom_feat_dim}
+  prediction_type: velocity

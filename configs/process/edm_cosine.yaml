@@ -1,0 +1,4 @@
+_target_: genmol.process.edm.EDMProcess
+schedule: cosine
+schedule_kwargs:
+  s: 0.008

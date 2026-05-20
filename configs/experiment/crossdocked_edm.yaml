@@ -1,0 +1,18 @@
+# @package _global_
+# Phase 1b #1: pocket-conditioned EDM on CrossDocked2020. M3.
+defaults:
+  - override /data: crossdocked
+  - override /model: edm_sbdd
+  - override /backbone: pocket_egnn_base
+  - override /process: edm_polynomial
+  - override /trainer: default
+  - override /callbacks: full_eval
+  - override /sampler: diffusion_default
+  - override /logger: wandb
+
+name: crossdocked_edm
+atom_feat_dim: 10
+
+backbone:
+  atom_feat_dim: ${atom_feat_dim}
+  prediction_type: noise

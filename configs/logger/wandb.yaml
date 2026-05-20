@@ -1,0 +1,6 @@
+_target_: lightning.pytorch.loggers.WandbLogger
+project: genmol
+name: ${run_name}
+save_dir: ${output_dir}
+log_model: false
+offline: false

@@ -1,0 +1,18 @@
+# @package _global_
+# Optional parallel: Flow Matching on PLINDER real binding poses.
+defaults:
+  - override /data: plinder
+  - override /model: flow_sbdd
+  - override /backbone: pocket_egnn_base
+  - override /process: fm_linear
+  - override /trainer: default
+  - override /callbacks: full_eval
+  - override /sampler: flow_euler
+  - override /logger: wandb
+
+name: plinder_flow
+atom_feat_dim: 10
+
+backbone:
+  atom_feat_dim: ${atom_feat_dim}
+  prediction_type: velocity

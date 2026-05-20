@@ -1,0 +1,2 @@
+_target_: genmol.oracle.rdkit_oracle.RDKitOracle
+score_kind: qed

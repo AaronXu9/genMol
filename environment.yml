@@ -1,0 +1,44 @@
+name: genmol
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  # System-level libs that pip can't (or shouldn't) install
+  - openbabel
+  # Dev tools (cheaper to install via conda)
+  - pre-commit
+  - pip:
+      # Core ML — pip wheels with bundled CUDA 12.1 runtime
+      - --extra-index-url=https://download.pytorch.org/whl/cu121
+      - torch==2.4.1
+      - lightning>=2.4
+      - torchmetrics
+      # Graph deep learning
+      - torch_geometric==2.5.3
+      # Chemistry
+      - rdkit>=2023.9.6
+      - posebusters>=0.3
+      - py3Dmol
+      # Config / experiment management
+      - hydra-core>=1.3
+      - omegaconf
+      - hydra-colorlog
+      - wandb
+      # Scientific
+      - numpy<2.0
+      - scipy
+      - pandas
+      - h5py
+      - matplotlib
+      - tqdm
+      - rich
+      # Dev
+      - pytest
+      - pytest-cov
+      - pytest-timeout
+      - ruff
+      - black
+      - isort
+      # Note: oracle backends (Uni-Dock2, Boltz) are NOT installed here —
+      # invoked via subprocess into their own conda envs.

@@ -1,0 +1,2 @@
+_target_: genmol.oracle.boltz_oracle.BoltzOracle
+timeout: 3600
