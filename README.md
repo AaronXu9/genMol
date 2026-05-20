@@ -1,5 +1,7 @@
 # genMol
 
+![ci](https://github.com/AaronXu9/genMol/actions/workflows/ci.yml/badge.svg)
+
 Generative molecular modeling: a shared scaffold for diffusion-based (EDM-style) and flow-matching-based (FlowMol-style) molecular generators, with first-class seams for RL fine-tuning (DDPO/FlowGRPO), DPO, and physics-guided sampling.
 
 ## Scope
@@ -29,14 +31,14 @@ make train-qm9-fm
 
 ## Milestones
 
-| | Goal | Verifier |
-|---|---|---|
-| **M0** | Skeleton + smoke test | `make smoke` |
-| **M1** | QM9 + EDM → first checkpoint | validity >85%, uniqueness >95% on val (matches Hoogeboom 2022) |
-| **M2** | QM9 + Flow Matching, same backbone | parity with M1; EDM↔FM is a one-line config swap |
-| **M3** | CrossDocked + pocket-conditioned EDM | pocket-conditioned validity >80%, plausible Vina scores |
-| **M4** | CrossDocked + Flow Matching + full eval | full report.md with PoseBusters/Vina/Boltz |
-| **M5** | Phase-2 seam sanity check | `pytest tests/unit/test_phase2_seams.py` |
+| | Goal | Status | Verifier |
+|---|---|---|---|
+| **M0** | Skeleton + smoke test | ✅ done | `make smoke` |
+| **M1** | QM9 + EDM → first checkpoint | ✅ **90.0% validity** at 200k steps (matches Hoogeboom 2022's ~91%) | `docs/benchmarks/M1_M2_report.md` |
+| **M2** | QM9 + Flow Matching, same backbone | ⚠️ 61.3% validity at lr=1e-4 (under-trained); lr=5e-5 retraining in progress, VP path available as `process=fm_vp` | `docs/benchmarks/M1_M2_report.md` |
+| **M3** | CrossDocked + pocket-conditioned EDM | ⏳ pending CrossDocked download | TBD |
+| **M4** | CrossDocked + Flow Matching + full eval | ⏳ after M3 | TBD |
+| **M5** | Phase-2 seam sanity check | ✅ in test suite | `pytest tests/unit/test_phase2_seams.py` |
 
 ## Architecture (one-paragraph)
 
