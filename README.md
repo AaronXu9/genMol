@@ -35,7 +35,7 @@ make train-qm9-fm
 |---|---|---|---|
 | **M0** | Skeleton + smoke test | ✅ done | `make smoke` |
 | **M1** | QM9 + EDM → first checkpoint | ✅ **90.0% validity** at 200k steps (matches Hoogeboom 2022's ~91%) | `docs/benchmarks/M1_M2_report.md` |
-| **M2** | QM9 + Flow Matching, same backbone | ⚠️ 61.3% validity at lr=1e-4 (under-trained); lr=5e-5 retraining in progress, VP path available as `process=fm_vp` | `docs/benchmarks/M1_M2_report.md` |
+| **M2** | QM9 + Flow Matching, same backbone | ✅ **92.0% validity** with VP path at 200k steps (beats EDM); linear path 61.3% (was under-trained) | `docs/benchmarks/M1_M2_report.md` |
 | **M3** | CrossDocked + pocket-conditioned EDM | ⏳ pending CrossDocked download | TBD |
 | **M4** | CrossDocked + Flow Matching + full eval | ⏳ after M3 | TBD |
 | **M5** | Phase-2 seam sanity check | ✅ in test suite | `pytest tests/unit/test_phase2_seams.py` |
