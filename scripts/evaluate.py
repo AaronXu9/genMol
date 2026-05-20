@@ -1,38 +1,60 @@
-"""Run the full eval suite on samples produced from a checkpoint."""
+"""Run the full eval suite. Thin wrapper around scripts/run_benchmark.py.
+
+For maximum control use run_benchmark.py directly. This script is the
+default `make eval CKPT=...` target.
+
+Usage:
+    python scripts/evaluate.py --ckpt PATH --model {edm,flow} [other args]
+
+If --model is omitted, infers from the checkpoint's stored hyperparameters
+when possible.
+"""
 from __future__ import annotations
 
 import argparse
+import subprocess
 import sys
 from pathlib import Path
 
 _REPO = Path(__file__).resolve().parent.parent
-if str(_REPO) not in sys.path:
-    sys.path.insert(0, str(_REPO))
-
-from genmol.eval.benchmarks import evaluate
 
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--ckpt", type=str, required=False, help="Lightning ckpt path")
-    p.add_argument("--samples", type=str, required=False, help="SDF of generated mols")
-    p.add_argument("--output-dir", type=str, default="reports/eval")
+    p.add_argument("--ckpt", required=True)
+    p.add_argument("--model", choices=["edm", "flow"], default=None,
+                   help="if omitted, infer from ckpt path")
+    p.add_argument("--n-samples", type=int, default=512)
+    p.add_argument("--num-steps", type=int, default=None,
+                   help="defaults: edm=250, flow=100")
+    p.add_argument("--batch", type=int, default=32)
+    p.add_argument("--output-dir", default=None,
+                   help="defaults to reports/<ckpt-stem>")
     args = p.parse_args()
 
-    if args.samples is None and args.ckpt is None:
-        raise SystemExit("Provide either --samples (SDF) or --ckpt (Lightning checkpoint)")
+    model = args.model
+    if model is None:
+        if "edm" in args.ckpt.lower() or "diffusion" in args.ckpt.lower():
+            model = "edm"
+        elif "flow" in args.ckpt.lower() or "fm" in args.ckpt.lower():
+            model = "flow"
+        else:
+            raise SystemExit("Cannot infer --model from ckpt path; pass --model explicitly")
 
-    if args.samples is not None:
-        from rdkit import Chem
-        suppl = Chem.SDMolSupplier(args.samples, sanitize=True)
-        mols = [m for m in suppl]
-    else:
-        raise NotImplementedError(
-            "M2+: load ckpt → sample → evaluate. For now, pass --samples directly."
-        )
+    num_steps = args.num_steps if args.num_steps is not None else (250 if model == "edm" else 100)
+    output_dir = args.output_dir or f"reports/{Path(args.ckpt).parent.parent.name}"
 
-    metrics = evaluate(mols, output_dir=args.output_dir)
-    print(metrics)
+    cmd = [
+        sys.executable, str(_REPO / "scripts" / "run_benchmark.py"),
+        "--ckpt", args.ckpt,
+        "--model", model,
+        "--n-samples", str(args.n_samples),
+        "--num-steps", str(num_steps),
+        "--batch", str(args.batch),
+        "--output-dir", output_dir,
+    ]
+    print(f"$ {' '.join(cmd)}")
+    raise SystemExit(subprocess.call(cmd, cwd=str(_REPO)))
 
 
 if __name__ == "__main__":
