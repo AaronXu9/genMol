@@ -1,4 +1,6 @@
-# Variance-preserving FM path. Currently aliases linear — extend `flow_paths.py`
-# with a VP path then re-target here.
+# Variance-preserving cos/sin FM path (Albergo 2023).
+# x_t = cos(π t / 2) x_0 + sin(π t / 2) x_1
+# Use when linear path under-trains (recommended over LinearPath when the
+# target distribution has the same variance as the base distribution).
 _target_: genmol.process.flow_matching.FlowMatchingProcess
-path: linear
+path: vp
