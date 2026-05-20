@@ -46,7 +46,21 @@ def main(cfg: DictConfig) -> None:
                 continue
             callbacks.append(instantiate(cb_cfg))
 
-    logger = instantiate(cfg.logger) if cfg.get("logger") else None
+    # Build logger(s). Always attach a CSV logger so metrics are persisted to
+    # disk regardless of whether W&B is offline/disabled/network-down. Without
+    # this, runs invoked with WANDB_MODE=disabled produce no metric history.
+    loggers: list = []
+    csv_logger = L.pytorch.loggers.CSVLogger(
+        save_dir=cfg.output_dir, name="metrics_csv"
+    )
+    loggers.append(csv_logger)
+    if cfg.get("logger"):
+        user_logger = instantiate(cfg.logger)
+        # Skip the redundant CSV if the user already picked CSVLogger.
+        if not isinstance(user_logger, L.pytorch.loggers.CSVLogger):
+            loggers.append(user_logger)
+    # Lightning takes a list, or a single logger, or False.
+    logger = loggers if len(loggers) > 1 else (loggers[0] if loggers else False)
 
     trainer = L.Trainer(
         max_steps=int(cfg.trainer.max_steps),
